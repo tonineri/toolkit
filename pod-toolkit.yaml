@@ -2,7 +2,7 @@ apiVersion: v1
 kind: Pod
 metadata:
   name: toolkit
-  #namespace: sas-viya                 ## <-- Specify namespace for the pod to be deployed
+  #namespace: sas-viya                  ## <-- Specify namespace for the pod to be deployed
 spec:
   ## Tolerations
   #nodeSelector:
