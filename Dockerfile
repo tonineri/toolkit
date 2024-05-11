@@ -28,6 +28,7 @@ RUN apt-get update && \
     sudo \
     telnet \
     unzip \
+    vim \
     wget \
     zip \
     zsh
@@ -53,11 +54,11 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
 RUN git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions
 RUN git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting
 RUN git clone https://github.com/jonmosco/kube-ps1.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/kube-ps1
-RUN echo 'export PATH=\$HOME/bin:/usr/local/bin:\$PATH' > /home/sas/.zshrc && \
-    echo 'export ZSH="\$HOME/.oh-my-zsh"' >> /home/sas/.zshrc && \
+RUN echo 'export PATH=$HOME/bin:/usr/local/bin:$PATH' > /home/sas/.zshrc && \
+    echo 'export ZSH="$HOME/.oh-my-zsh"' >> /home/sas/.zshrc && \
     echo 'ZSH_THEME="agnoster"' >> /home/sas/.zshrc && \
     echo 'plugins=(git zsh-autosuggestions zsh-syntax-highlighting kubectl)' >> /home/sas/.zshrc && \
-    echo 'source \$ZSH/oh-my-zsh.sh' >> /home/sas/.zshrc && \
+    echo 'source $ZSH/oh-my-zsh.sh' >> /home/sas/.zshrc && \
     echo 'TERM=xterm-256color' >> /home/sas/.zshrc && \
     echo 'alias ll="ls -la"' >> /home/sas/.zshrc && \
     echo 'alias bat="batcat"' >> /home/sas/.zshrc && \
