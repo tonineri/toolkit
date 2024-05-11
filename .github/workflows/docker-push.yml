@@ -36,5 +36,5 @@ jobs:
           sbom: true
           push: true
           tags: |
-            ${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }}
-            ${{ env.IMAGE_NAME }}:latest
+            antonioneri/toolkit:${{ steps.date.outputs.date }}
+            antonioneri/toolkit:latest
