@@ -32,7 +32,7 @@ jobs:
 
       - name: Get current date
         id: date
-        if: github.ref == 'refs/heads/main'
+        if: ${{ github.ref == 'refs/heads/main' }}
         run: echo "::set-output name=date::$(date +'%Y%m%d')"
 
       - name: Build and push image
@@ -43,5 +43,5 @@ jobs:
           push: true
           tags: |
             ${{ steps.meta.outputs.tags }}
-            antonioneri/toolkit:${{ steps.date.outputs.date }}    
-            antonioneri/toolkit:latest
+            ${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }}    
+            ${{ env.IMAGE_NAME }}:latest
