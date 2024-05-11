@@ -6,7 +6,7 @@ on:
       - "main"
 
 env:
-  IMAGE_NAME: antonioneri/toolkit
+  IMAGE_NAME: user/app
 
 jobs:
   docker:
@@ -32,6 +32,7 @@ jobs:
 
       - name: Get current date
         id: date
+        if: github.ref == 'refs/heads/main'
         run: echo "::set-output name=date::$(date +'%Y%m%d')"
 
       - name: Build and push image
@@ -42,5 +43,5 @@ jobs:
           push: true
           tags: |
             ${{ steps.meta.outputs.tags }}
-            antonioneri/toolkit:${{ steps.date.outputs.date }}
+            antonioneri/toolkit:${{ steps.date.outputs.date }}    
             antonioneri/toolkit:latest
