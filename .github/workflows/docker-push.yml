@@ -24,10 +24,10 @@ jobs:
           username: ${{ secrets.DOCKERHUB_USERNAME }}
           password: ${{ secrets.DOCKERHUB_TOKEN }}
 
-      - name: Get current date
+      - name: Save current date to state
         id: date
         if: ${{ github.ref == 'refs/heads/main' }}
-        run: echo "::set-output name=date::$(date +'%Y%m%d')"
+        run: echo "DATE=${{ steps.date.outputs.date }}" >> $GITHUB_STATE
 
       - name: Build and push image
         uses: docker/build-push-action@v5
@@ -36,5 +36,5 @@ jobs:
           sbom: true
           push: true
           tags: |
-            ${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }}    
+            ${{ env.IMAGE_NAME }}:${{ steps.date.outputs.date }}
             ${{ env.IMAGE_NAME }}:latest
