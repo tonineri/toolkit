@@ -18,6 +18,7 @@ RUN apt-get update && \
     inetutils-ping \
     jq \
     krb5-user \
+    language-pack-en \
     netcat-openbsd \
     nmap \
     plocate \
@@ -38,7 +39,7 @@ RUN apt clean && \
     rm -rf /tmp/* /root/.cache /var/lib/apt/lists/*
 
 # Create a user with root privileges
-RUN useradd -m sas && \
+RUN useradd -ms /bin/zsh sas && \
     usermod -aG sudo sas && \
     echo "sas ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
