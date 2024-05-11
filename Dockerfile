@@ -61,6 +61,9 @@ RUN rm -rf $HOME/.oh-my-zsh && \
     echo 'alias locate="plocate"' >> $HOME/.zshrc && \
     echo 'alias please="sudo"' >> $HOME/.zshrc
 
+# Set default shell to zsh
+SHELL ["/bin/zsh", "-c"]
+
 # Set the working directory
 WORKDIR /home/sas
 
