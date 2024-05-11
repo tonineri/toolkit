@@ -38,7 +38,7 @@ RUN apt clean && \
     rm -rf /tmp/* /root/.cache /var/lib/apt/lists/*
 
 # Create a user with root privileges
-RUN useradd -ms /bin/zsh sas && \
+RUN useradd -m sas && \
     usermod -aG sudo sas && \
     echo "sas ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
@@ -51,17 +51,14 @@ RUN rm -rf $HOME/.oh-my-zsh && \
     git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && \
     git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting && \
     git clone https://github.com/jonmosco/kube-ps1.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/kube-ps1 && \
-    sed -i 's|# export PATH=$HOME/bin:/usr/local/bin:$PATH|export PATH=$HOME/bin:/usr/local/bin:$PATH|g' /home/sas/.zshrc && \
-    sed -i 's|robbyrussell|agnoster|g' /home/sas/.zshrc && \
-    sed -i 's|plugins=(git)|plugins=(git zsh-autosuggestions zsh-syntax-highlighting kubectl)|g' /home/sas/.zshrc && \
-    echo 'TERM=xterm-256color' >> /home/sas/.zshrc && \
-    echo 'alias ll="ls -la"' >> /home/sas/.zshrc && \
-    echo 'alias bat="batcat"' >> /home/sas/.zshrc && \
-    echo 'alias locate="plocate"' >> /home/sas/.zshrc && \
-    echo 'alias please="sudo"' >> /home/sas/.zshrc
-
-# Set default shell to zsh
-SHELL ["/bin/zsh", "-c"]
+    sed -i 's|# export PATH=$HOME/bin:/usr/local/bin:$PATH|export PATH=$HOME/bin:/usr/local/bin:$PATH|g' $HOME/.zshrc && \
+    sed -i 's|robbyrussell|agnoster|g' $HOME/.zshrc && \
+    sed -i 's|plugins=(git)|plugins=(git zsh-autosuggestions zsh-syntax-highlighting kubectl)|g' $HOME/.zshrc && \
+    echo 'TERM=xterm-256color' >> $HOME/.zshrc && \
+    echo 'alias ll="ls -la"' >> $HOME/.zshrc && \
+    echo 'alias bat="batcat"' >> $HOME/.zshrc && \
+    echo 'alias locate="plocate"' >> $HOME/.zshrc && \
+    echo 'alias please="sudo"' >> $HOME/.zshrc
 
 # Set the working directory
 WORKDIR /home/sas
