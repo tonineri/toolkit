@@ -43,7 +43,7 @@ kubectl -n <namespace> pod-toolkit.yaml
 3. Access the pod:
 
 ```bash
-kubectl -n <namespace> exec -it toolkit -- /bin/bash
+kubectl -n <namespace> exec -it toolkit -- /bin/zsh
 ```
 
 ![divider](/.assets/divider.png)

@@ -1,7 +1,7 @@
 FROM ubuntu:24.04
 
-LABEL version="20240509" \
-      maintainer="Antonio Neri <Antonio.Neri@sas.com>" \
+LABEL version="20240511" \
+      maintainer="Antonio Neri <antoneri@proton.me>" \
       description="Toolkit Pod"
 
 # Necessary environment variables
@@ -29,17 +29,31 @@ RUN apt-get update && \
     telnet \
     unzip \
     wget \
-    zip
+    zip \
+    zsh
+
+# Install and customize zsh
+RUN rm -rf $HOME/.oh-my-zsh && \
+    sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \
+    git clone https://github.com/zsh-users/zsh-autosuggestions ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-autosuggestions && \
+    git clone https://github.com/zsh-users/zsh-syntax-highlighting.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-syntax-highlighting && \
+    git clone https://github.com/jonmosco/kube-ps1.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/kube-ps1 && \
+    echo 'export PATH=\$HOME/bin:/usr/local/bin:\$PATH' > /home/sas/.zshrc && \
+    echo 'export ZSH="\$HOME/.oh-my-zsh"' >> /home/sas/.zshrc && \
+    echo 'ZSH_THEME="agnoster"' >> /home/sas/.zshrc && \
+    echo 'plugins=(git zsh-autosuggestions zsh-syntax-highlighting kubectl)' >> /home/sas/.zshrc && \
+    echo 'source \$ZSH/oh-my-zsh.sh' >> /home/sas/.zshrc && \
+    echo 'TERM=xterm-256color' >> /home/sas/.zshrc
 
 # Cleanup
 RUN apt clean && \
     rm -rf /tmp/* /root/.cache /var/lib/apt/lists/*
 
-# Set default shell to bash
-SHELL ["/bin/bash", "-c"]
+# Set default shell to zsh
+SHELL ["/bin/zsh", "-c"]
 
 # Create a user with root privileges
-RUN useradd -ms /bin/bash sas && \
+RUN useradd -ms /bin/zsh sas && \
     usermod -aG sudo sas && \
     echo "sas ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
@@ -47,14 +61,13 @@ RUN useradd -ms /bin/bash sas && \
 USER sas
 
 # Set aliases for sas
-RUN echo 'TERM=xterm-256color' >> /home/sas/.bashrc && \
-    echo 'alias ll="ls -la"' >> /home/sas/.bashrc && \
-    echo 'alias bat="batcat"' >> /home/sas/.bashrc && \
-    echo 'alias locate="plocate"' >> /home/sas/.bashrc && \
-    echo 'alias please="sudo"' >> /home/sas/.bashrc
+RUN echo 'alias ll="ls -la"' >> /home/sas/.zshrc && \
+    echo 'alias bat="batcat"' >> /home/sas/.zshrc && \
+    echo 'alias locate="plocate"' >> /home/sas/.zshrc && \
+    echo 'alias please="sudo"' >> /home/sas/.zshrc
 
 # Set the working directory
 WORKDIR /home/sas
 
 # Default command to run when starting the container
-CMD ["/bin/bash"]
+CMD ["/bin/zsh"]  # Change default shell for the CMD
