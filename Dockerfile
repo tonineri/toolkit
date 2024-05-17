@@ -1,6 +1,6 @@
 FROM ubuntu:24.04
 
-LABEL version="20240511" \
+LABEL version="20240517" \
       maintainer="Antonio Neri <antoneri@proton.me>" \
       description="Toolkit Pod"
 
@@ -54,7 +54,7 @@ RUN rm -rf $HOME/.oh-my-zsh && \
     git clone https://github.com/jonmosco/kube-ps1.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/kube-ps1 && \
     sed -i 's|# export PATH=$HOME/bin:/usr/local/bin:$PATH|export PATH=$HOME/bin:/usr/local/bin:$PATH|g' $HOME/.zshrc && \
     sed -i 's|robbyrussell|agnoster|g' $HOME/.zshrc && \
-    sed -i 's|plugins=(git)|plugins=(git zsh-autosuggestions zsh-syntax-highlighting kubectl)|g' $HOME/.zshrc && \
+    sed -i 's|plugins=(git)|plugins=(git zsh-autosuggestions zsh-syntax-highlighting kubectl nmap)|g' $HOME/.zshrc && \
     echo 'TERM=xterm-256color' >> $HOME/.zshrc && \
     echo 'alias ll="ls -la"' >> $HOME/.zshrc && \
     echo 'alias bat="batcat"' >> $HOME/.zshrc && \
