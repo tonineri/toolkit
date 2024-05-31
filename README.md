@@ -12,7 +12,7 @@
 
 ## Description
 
-A pod based on `Ubuntu 24.04 LTS` which provides essential tools to troubleshoot containerized SAS Viya environments.
+A pod based on [`antonioneri/micro`](https://github.com/tonineri/micro) which provides essential tools to troubleshoot containerized SAS Viya environments.
 
 ![divider](/.assets/divider.png)
 

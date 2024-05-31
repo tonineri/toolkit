@@ -1,4 +1,4 @@
-FROM ubuntu:24.04
+FROM antonioneri/micro:latest
 
 LABEL version="20240517" \
       maintainer="Antonio Neri <antoneri@proton.me>" \
