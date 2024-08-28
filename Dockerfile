@@ -1,6 +1,6 @@
 FROM antonioneri/micro:latest
 
-LABEL version="20240517" \
+LABEL version="20240828" \
       maintainer="Antonio Neri <antoneri@proton.me>" \
       description="Toolkit Pod"
 
@@ -21,6 +21,7 @@ RUN apt-get update && \
     language-pack-en \
     netcat-openbsd \
     nmap \
+    openjdk-17-jdk \
     plocate \
     postgresql-client \
     python3 \
