@@ -4,7 +4,7 @@
 
 # **Toolkit Pod**
 
-[![License](https://img.shields.io/badge/license-Apache%202.0-blue)](LICENSE.md)
+[![License](https://img.shields.io/badge/license-MIT-blue)](LICENSE.md)
 
 </div>
 
@@ -12,13 +12,13 @@
 
 ## Description
 
-A pod based on [`antonioneri/micro`](https://github.com/tonineri/micro) which provides essential tools to troubleshoot containerized SAS Viya environments.
+A pod based on [`Red Hat Universal Base Image 8 Minimal (ubi8-minimal:latest)`](https://catalog.redhat.com/software/containers/ubi8-minimal/5c64772edd19c77a158ea216) which provides essential tools to troubleshoot containerized SAS Viya environments.
 
 ![divider](/.assets/divider.png)
 
 ## Prerequisites
 
-Before using the `toolkit`, ensure you have **pod deployment capabilities within the specified namespace(s)**.
+Before using the `toolkit` pod, ensure you have **pod deployment capabilities within the specified namespace(s)**.
 
 ![divider](/.assets/divider.png)
 
@@ -64,7 +64,7 @@ We welcome contributions. Please submit your ideas, bug reports, or feature requ
 
 ## License
 
-This project is licensed under the [Apache 2.0 License](LICENSE.md). 
+This project is licensed under the [MIT License](LICENSE.md).
 
 ![divider](/.assets/divider.png)
 
