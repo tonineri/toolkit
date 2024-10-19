@@ -10,9 +10,7 @@ ENV LANG="en_US.UTF-8" \
 
 # Update and install necessary tools
 RUN microdnf update -y && \
-    microdnf install -y epel-release && \
     microdnf install -y \
-    bat \
     curl \
     git \
     iputils \
@@ -58,8 +56,7 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
     echo 'TERM=xterm-256color' >> $HOME/.zshrc && \
     echo 'alias ll="ls -la"' >> $HOME/.zshrc && \
     echo 'alias diff="icdiff"' >> $HOME/.zshrc && \
-    echo 'alias please="sudo"' >> $HOME/.zshrc && \
-    echo 'alias bat="batcat"' >> $HOME/.zshrc
+    echo 'alias please="sudo"' >> $HOME/.zshrc
 
 # Set default shell to zsh
 SHELL ["/bin/zsh", "-c"]
