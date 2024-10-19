@@ -10,8 +10,8 @@ ENV LANG="en_US.UTF-8" \
 
 # Update and install necessary tools
 RUN microdnf update -y && \
-    rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \ ## EPEL
-    rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \ ## PostgreSQL
+    rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
+    rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \
     microdnf install -y --enablerepo=ubi-9-codeready-builder --setopt install_weak_deps=0 \
     bat \
     bzip2 \
