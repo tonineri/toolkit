@@ -28,29 +28,29 @@ To get started with the `toolkit`, follow these steps:
 
 - Keeping defaults:
 
-    ```bash
+    ```sh
     kubectl -n <namespace> apply -f https://raw.githubusercontent.com/tonineri/toolkit/main/pod-toolkit.yaml
     kubectl -n <namespace> exec -it toolkit -- zsh
     ```
 
-- Customize the [`Dockerfile`](Dockerfile) and/or the [`pod-toolkit.yaml`](pod-toolkit.yaml) file before deploying the pod:
+- Customize the [`pod-toolkit.yaml`](pod-toolkit.yaml) file before deploying the pod:
 
-    1. Get the latest version of the tool:
+    1. Get the latest version of the manifest:
 
-    ```bash
-    git clone https://github.com/tonineri/toolkit
+    ```sh
+    wget https://raw.githubusercontent.com/tonineri/toolkit/main/pod-toolkit.yaml
     ```
 
-    2. Deploy the pod in your namespace:
+    2. Edit the `pod-toolkit.yaml` and deploy the pod in your namespace:
 
-    ```bash
-    cd toolkit
-    kubectl -n <namespace> pod-toolkit.yaml
+    ```sh
+    vi pod-toolkit.yaml
+    kubectl -n <namespace> apply -f pod-toolkit.yaml
     ```
 
     3. Access the pod:
 
-    ```bash
+    ```sh
     kubectl -n <namespace> exec -it toolkit -- zsh
     ```
 
@@ -67,5 +67,3 @@ We welcome contributions. Please submit your ideas, bug reports, or feature requ
 This project is licensed under the [MIT License](LICENSE.md).
 
 ![divider](/.assets/divider.png)
-
-
