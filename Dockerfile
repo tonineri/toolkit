@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi8/ubi-minimal:latest
+FROM registry.access.redhat.com/ubi9-minimal:latest
 
 LABEL version="20241019" \
       maintainer="Antonio Neri <antoneri@proton.me>" \
@@ -10,26 +10,29 @@ ENV LANG="en_US.UTF-8" \
 
 # Update and install necessary tools
 RUN microdnf update -y && \
-    microdnf install -y \
-    curl \
+    rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \ ## EPEL
+    rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \ ## PostgreSQL
+    microdnf install -y --enablerepo=ubi-9-codeready-builder --setopt install_weak_deps=0 \
+    bat \
+    bzip2 \
     git \
     iputils \
     java-17-openjdk \
     krb5-workstation \
     nmap \
     openssh-clients \
-    postgresql \
+    postgresql15 \
     python3 \
     python3-pip \
     rsync \
     sudo \
-    traceroute \
+    tar \
     unzip \
     vim-enhanced \
     wget \
     zip \
     zsh && \
-    microdnf clean all
+    microdnf clean all && rm -rf /var/cache/yum
 
 # Install icdiff via pip
 RUN pip3 install --no-cache-dir icdiff
@@ -56,7 +59,8 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
     echo 'TERM=xterm-256color' >> $HOME/.zshrc && \
     echo 'alias ll="ls -la"' >> $HOME/.zshrc && \
     echo 'alias diff="icdiff"' >> $HOME/.zshrc && \
-    echo 'alias please="sudo"' >> $HOME/.zshrc
+    echo 'alias please="sudo"' >> $HOME/.zshrc && \
+    echo 'alias dnf="microdnf"' >> $HOME/.zshrc
 
 # Set default shell to zsh
 SHELL ["/bin/zsh", "-c"]
