@@ -32,7 +32,7 @@ RUN microdnf update -y && \
     wget \
     zip \
     zsh && \
-    microdnf clean all && rm -rf /var/cache/yum
+    microdnf clean all && rm -rf /var/cache/yum /tmp/* /var/tmp/*
 
 # Install icdiff via pip
 RUN pip3 install --no-cache-dir icdiff

@@ -45,6 +45,7 @@ To get started with the `toolkit`, follow these steps:
 
     ```sh
     vi pod-toolkit.yaml
+    # Make your modifications
     kubectl -n <namespace> apply -f pod-toolkit.yaml
     ```
 
