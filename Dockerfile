@@ -18,6 +18,7 @@ RUN microdnf update -y && \
     git \
     iputils \
     java-17-openjdk \
+    jq \
     krb5-workstation \
     nmap \
     openssh-clients \
