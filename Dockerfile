@@ -37,7 +37,7 @@ RUN microdnf update -y && \
     zsh && \
     curl -sSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq && chmod +x /usr/local/bin/yq && \
     microdnf clean all && \
-    rm -rf /tmp/* /var/tmp/*
+    rm -rf /tmp/* /var/tmp/* /var/cache/dnf /var/cache/yum
 
 # Install icdiff via pip
 RUN pip3 install --no-cache-dir icdiff
