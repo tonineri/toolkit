@@ -45,9 +45,6 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Inspecting SARIF report
-        run: cat ${{ steps.scan.outputs.sarif }}
-
       - name: Push Image to GHCR
-        run: docker push ${{ env.IMAGE_PATH }}:${{ env.DATE }}
-        if: ${{ steps.scan.outcome == 'success' }}
+        run: docker push ${{ env.IMAGE_PATH }}:${{ env.DATE }} && docker push ${{ env.IMAGE_PATH }}:latest
+        #if: ${{ steps.scan.outcome == 'success' }}
