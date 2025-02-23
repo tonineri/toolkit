@@ -25,8 +25,10 @@ jobs:
           password: ${{ secrets.GH_TOKEN }}
           registry: ghcr.io
 
+      - name: Checkout
+        uses: actions/checkout@v4
+
       - name: Building image
-        uses: actions/checkout@4
         run: docker build . --file Dockerfile --tag ${{ env.IMAGE_PATH }}:${{ env.DATE }} --tag ${{ env.IMAGE_PATH }}:latest
 
       - name: Scanning image
@@ -40,10 +42,10 @@ jobs:
         uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
-      
+
       - name: Inspecting SARIF report
         run: cat ${{ steps.scan.outputs.sarif }}
-      
+
       - name: Push Image to GHCR
         run: docker push ${{ env.IMAGE_PATH }}:${{ env.DATE }}
         if: ${{ steps.scan.outcome == 'success' }}
