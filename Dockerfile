@@ -1,8 +1,8 @@
 FROM registry.access.redhat.com/ubi9-minimal:latest
 
-LABEL version="20250223" \
-      maintainer="Antonio Neri <antoneri@proton.me>" \
-      description="Toolkit Pod"
+LABEL maintainer="Antonio Neri <antoneri@proton.me>" \
+      description="SAS Viya - Toolkit Pod" \
+      org.opencontainers.image.source = "https://github.com/tonineri/toolkit"
 
 # Necessary environment variables
 ENV LANG="en_US.UTF-8" \
