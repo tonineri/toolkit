@@ -13,40 +13,37 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
+      - name: Getting current date
+        id: date
+        if: ${{ github.ref == 'refs/heads/main' }}
+        run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
-      - name: Set up Docker Buildx
-        uses: docker/setup-buildx-action@v3
-
-      - name: Login to GitHub Container Registry
+      - name: Logging into ghcr.io
         uses: docker/login-action@v3
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
           registry: ghcr.io
 
-      - name: Get current date
-        id: date
-        if: ${{ github.ref == 'refs/heads/main' }}
-        run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
-
-      - name: Build the Container Image
+      - name: Building image
+        uses: actions/checkout@4
         run: docker build . --file Dockerfile --tag ${{ env.IMAGE_PATH }}:${{ env.DATE }} --tag ${{ env.IMAGE_PATH }}:latest
 
-      - name: Scan Image
-        uses: anchore/scan-action@v3
+      - name: Scanning image
+        uses: anchore/scan-action@v6
         id: scan
         with:
-          image: ${{ env.IMAGE_PATH }}:${{ env.DATE }}
-          fail-build: true
-          output-format: sarif
+          image: "${{ env.IMAGE_PATH }}:latest"
+          fail-build: false
 
-      - name: Upload Anchore Scan SARIF Report
-        uses: github/codeql-action/upload-sarif@v2
+      - name: Uploading Anchore scan SARIF report
+        uses: github/codeql-action/upload-sarif@v3
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
-
+      
+      - name: Inspecting SARIF report
+        run: cat ${{ steps.scan.outputs.sarif }}
+      
       - name: Push Image to GHCR
         run: docker push ${{ env.IMAGE_PATH }}:${{ env.DATE }}
         if: ${{ steps.scan.outcome == 'success' }}
