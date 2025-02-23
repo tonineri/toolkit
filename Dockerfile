@@ -33,7 +33,6 @@ RUN microdnf update -y && \
     wget \
     zip \
     zsh && \
-    # Clean up
     microdnf clean all && \
     rm -rf /var/cache/yum /tmp/* /var/tmp/*
 
