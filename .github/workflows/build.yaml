@@ -12,8 +12,7 @@ permissions:
   security-events: write
 
 env:
-  IMAGE_NAME: ${{ github.repository.split('/')[1] }}
-  IMAGE_PATH: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}
+  IMAGE_PATH: ghcr.io/${{ github.repository }}
 
 jobs:
   docker:
@@ -24,17 +23,21 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
+      - name: Getting image name
+        id: getImageName
+        run: echo "IMAGE_NAME=${GITHUB_REPOSITORY#*/}" >> $GITHUB_ENV
+
       - name: Checkout
         uses: actions/checkout@v4
 
       - name: Building image
-        run: docker build . --file Dockerfile --tag ${{ env.IMAGE_PATH }}:${{ env.DATE }} --tag ${{ env.IMAGE_PATH }}:latest
+        run: docker build . --file Dockerfile --tag ${{ env.IMAGE_PATH }}/${{ env.IMAGE_NAME }}:${{ env.DATE }} --tag ${{ env.IMAGE_PATH }}/${{ env.IMAGE_NAME }}:latest
 
       - name: Scanning image
         uses: anchore/scan-action@7c05671ae9be166aeb155bad2d7df9121823df32 # v6.1.0
         id: scan
         with:
-          image: "${{ env.IMAGE_PATH }}:latest"
+          image: "${{ env.IMAGE_PATH }}/${{ env.IMAGE_NAME }}:latest"
           fail-build: false
           severity-cutoff: "critical"
 
@@ -53,5 +56,5 @@ jobs:
           registry: ghcr.io
 
       - name: Pushing Image to GHCR
-        run: docker push ${{ env.IMAGE_PATH }}:${{ env.DATE }} && docker push ${{ env.IMAGE_PATH }}:latest
+        run: docker push ${{ env.IMAGE_PATH }}/${{ env.IMAGE_NAME }}:${{ env.DATE }} && docker push ${{ env.IMAGE_PATH }}/${{ env.IMAGE_NAME }}:latest
         if: ${{ steps.scan.outcome == 'success' }}

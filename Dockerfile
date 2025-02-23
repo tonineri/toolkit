@@ -68,6 +68,8 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
     echo 'plugins=(git zsh-syntax-highlighting zsh-autosuggestions zsh-completions zsh-history-substring-search you-should-use nmap)' >> $HOME/.zshrc && \
     echo 'source $ZSH/oh-my-zsh.sh' >> $HOME/.zshrc && \
     echo 'TERM=xterm-256color' >> $HOME/.zshrc && \
+    echo '' >> $HOME/.zshrc && \
+    echo '# Aliases' >> $HOME/.zshrc && \
     echo 'alias ll="ls -la"' >> $HOME/.zshrc && \
     echo 'alias diff="icdiff"' >> $HOME/.zshrc && \
     echo 'alias please="sudo"' >> $HOME/.zshrc && \
