@@ -6,6 +6,12 @@ on:
       - "main"
   workflow_dispatch:
 
+permissions:
+  contents: read
+  metadata: read
+  packages: write
+  security-events: write
+
 env:
   IMAGE_PATH: ghcr.io/${{ github.repository }}
 
@@ -37,6 +43,7 @@ jobs:
         with:
           image: "${{ env.IMAGE_PATH }}:latest"
           fail-build: false
+          severity-cutoff: "critical"
 
       - name: Uploading Anchore scan SARIF report
         uses: github/codeql-action/upload-sarif@v3
@@ -47,4 +54,4 @@ jobs:
 
       - name: Push Image to GHCR
         run: docker push ${{ env.IMAGE_PATH }}:${{ env.DATE }} && docker push ${{ env.IMAGE_PATH }}:latest
-        #if: ${{ steps.scan.outcome == 'success' }}
+        if: ${{ steps.scan.outcome == 'success' }}
