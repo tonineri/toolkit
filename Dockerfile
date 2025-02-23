@@ -12,7 +12,7 @@ ENV LANG="en_US.UTF-8" \
 RUN microdnf update -y && \
     rpm -ivh https://dl.fedoraproject.org/pub/epel/epel-release-latest-9.noarch.rpm && \
     rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \
-    microdnf install -y --enablerepo=ubi-9-codeready-builder --setopt install_weak_deps=0 \
+    microdnf install -y --enablerepo=ubi-9-codeready-builder-rpms --setopt install_weak_deps=0 \
     bat \
     bzip2 \
     git \
@@ -22,7 +22,9 @@ RUN microdnf update -y && \
     krb5-workstation \
     nmap \
     openssh-clients \
+    postgresql14 \
     postgresql15 \
+    postgresql16 \
     python3 \
     python3-pip \
     rsync \
@@ -34,9 +36,8 @@ RUN microdnf update -y && \
     zip \
     zsh && \
     curl -sSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq && chmod +x /usr/local/bin/yq && \
-    curl -sSL https://github.com/jqlang/jq/releases/latest/download/jq-linux-amd64 -o /usr/local/bin/jq && chmod +x /usr/local/bin/jq && \
     microdnf clean all && \
-    rm -rf /var/cache/yum /tmp/* /var/tmp/*
+    rm -rf /tmp/* /var/tmp/*
 
 # Install icdiff via pip
 RUN pip3 install --no-cache-dir icdiff
