@@ -14,7 +14,7 @@ spec:
   #    effect: "NoSchedule"
   containers:
     - name: toolkit
-      image: antonioneri/toolkit:latest
+      image: ghcr.io/tonineri/toolkit:latest
       command: ['sleep', 'infinity']
       #volumeMounts:
       #  - mountPath: "/mount"

@@ -24,6 +24,7 @@ jobs:
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
+          registry: ghcr.io
 
       - name: Get current date
         id: date
