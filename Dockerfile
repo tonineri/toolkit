@@ -1,8 +1,7 @@
 FROM registry.access.redhat.com/ubi9-minimal:latest
 
 LABEL maintainer="Antonio Neri <antoneri@proton.me>" \
-      description="SAS Viya - Toolkit Pod" \
-      org.opencontainers.image.source="https://github.com/tonineri/toolkit"
+      description="SAS Viya - Toolkit Pod"
 
 # Necessary environment variables
 ENV LANG="en_US.UTF-8" \
