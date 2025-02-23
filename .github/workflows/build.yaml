@@ -12,7 +12,8 @@ permissions:
   security-events: write
 
 env:
-  IMAGE_PATH: ghcr.io/${{ github.repository }}
+  IMAGE_NAME: ${{ github.repository.split('/')[1] }}
+  IMAGE_PATH: ghcr.io/${{ github.repository }}/${{ env.IMAGE_NAME }}
 
 jobs:
   docker:
@@ -23,13 +24,6 @@ jobs:
         if: ${{ github.ref == 'refs/heads/main' }}
         run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
-      - name: Logging into ghcr.io
-        uses: docker/login-action@v3
-        with:
-          username: ${{ github.actor }}
-          password: ${{ secrets.GH_TOKEN }}
-          registry: ghcr.io
-
       - name: Checkout
         uses: actions/checkout@v4
 
@@ -37,7 +31,7 @@ jobs:
         run: docker build . --file Dockerfile --tag ${{ env.IMAGE_PATH }}:${{ env.DATE }} --tag ${{ env.IMAGE_PATH }}:latest
 
       - name: Scanning image
-        uses: anchore/scan-action@v6
+        uses: anchore/scan-action@7c05671ae9be166aeb155bad2d7df9121823df32 # v6.1.0
         id: scan
         with:
           image: "${{ env.IMAGE_PATH }}:latest"
@@ -51,6 +45,13 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Push Image to GHCR
+      - name: Logging into ghcr.io
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v3.3.0
+        with:
+          username: ${{ github.actor }}
+          password: ${{ secrets.GH_TOKEN }}
+          registry: ghcr.io
+
+      - name: Pushing Image to GHCR
         run: docker push ${{ env.IMAGE_PATH }}:${{ env.DATE }} && docker push ${{ env.IMAGE_PATH }}:latest
         if: ${{ steps.scan.outcome == 'success' }}
