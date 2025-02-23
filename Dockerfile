@@ -1,6 +1,6 @@
 FROM registry.access.redhat.com/ubi9-minimal:latest
 
-LABEL version="20241019" \
+LABEL version="20250223" \
       maintainer="Antonio Neri <antoneri@proton.me>" \
       description="Toolkit Pod"
 
@@ -33,7 +33,9 @@ RUN microdnf update -y && \
     wget \
     zip \
     zsh && \
-    microdnf clean all && rm -rf /var/cache/yum /tmp/* /var/tmp/*
+    # Clean up
+    microdnf clean all && \
+    rm -rf /var/cache/yum /tmp/* /var/tmp/*
 
 # Install icdiff via pip
 RUN pip3 install --no-cache-dir icdiff
@@ -53,10 +55,16 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
     git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-completions && \
     git clone https://github.com/zsh-users/zsh-history-substring-search.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-history-substring-search && \
     git clone https://github.com/MichaelAquilina/zsh-you-should-use.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/you-should-use && \
-    git clone https://github.com/jonmosco/kube-ps1.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/kube-ps1 && \
-    sed -i 's|# export PATH=$HOME/bin:/usr/local/bin:$PATH|export PATH=$HOME/bin:/usr/local/bin:$PATH|g' $HOME/.zshrc && \
-    sed -i 's|robbyrussell|agnoster|g' $HOME/.zshrc && \
-    sed -i 's|plugins=(git)|plugins=(git zsh-syntax-highlighting zsh-autosuggestions zsh-completions zsh-history-substring-search you-should-use kubectl kube-ps1 nmap)|g' $HOME/.zshrc && \
+    echo '# zsh' > $HOME/.zshrc && \
+    echo 'export PATH=$HOME/bin:/usr/local/bin:${KREW_ROOT:-$HOME/.krew}/bin:$PATH' >> $HOME/.zshrc && \
+    echo 'export ZSH="$HOME/.oh-my-zsh"' >> $HOME/.zshrc && \
+    echo 'export AGNOSTER_CONTEXT_BG=black' >> $HOME/.zshrc && \
+    echo 'export AGNOSTER_CONTEXT_FG=white' >> $HOME/.zshrc && \
+    echo 'export AGNOSTER_DIR_BG=yellow' >> $HOME/.zshrc && \
+    echo 'export AGNOSTER_DIR_FG=black' >> $HOME/.zshrc && \
+    echo 'export ZSH_THEME="agnoster"' >> $HOME/.zshrc && \
+    echo 'plugins=(git zsh-syntax-highlighting zsh-autosuggestions zsh-completions zsh-history-substring-search you-should-use nmap)' >> $HOME/.zshrc && \
+    echo 'source $ZSH/oh-my-zsh.sh' >> $HOME/.zshrc && \
     echo 'TERM=xterm-256color' >> $HOME/.zshrc && \
     echo 'alias ll="ls -la"' >> $HOME/.zshrc && \
     echo 'alias diff="icdiff"' >> $HOME/.zshrc && \
