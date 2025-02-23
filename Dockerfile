@@ -33,6 +33,8 @@ RUN microdnf update -y && \
     wget \
     zip \
     zsh && \
+    curl -sSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq && chmod +x /usr/local/bin/yq && \
+    curl -sSL https://github.com/jqlang/jq/releases/latest/download/jq-linux-amd64 -o /usr/local/bin/jq && chmod +x /usr/local/bin/jq && \
     microdnf clean all && \
     rm -rf /var/cache/yum /tmp/* /var/tmp/*
 
