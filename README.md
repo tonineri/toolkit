@@ -12,7 +12,7 @@
 
 ## Description
 
-A pod based on **Red Hat Universal Base Image 9 (Minimal)** [`ubi9-minimal:latest`](https://catalog.redhat.com/software/containers/ubi9-minimal/61832888c0d15aff4912fe0d) which provides essential tools to troubleshoot containerized SAS Viya environments.
+A pod based on **Red Hat Universal Base Image 9 (Minimal)** `ubi9-minimal:9.5` which provides essential tools to troubleshoot containerized SAS Viya environments.
 
 ![divider](/.assets/divider.png)
 
