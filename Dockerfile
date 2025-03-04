@@ -30,7 +30,6 @@ RUN microdnf update -y && \
     rsync \
     sudo \
     tar \
-    telnet \
     unzip \
     vim-enhanced \
     wget \
