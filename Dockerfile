@@ -51,7 +51,7 @@ RUN useradd -ms /bin/zsh sas && \
 USER sas
 
 # Copy powerlevel10k settings
-COPY /.assets/.p10k.zsh $HOME/.p10k.zsh
+COPY /.assets/.p10k.zsh /home/sas/.p10k.zsh
 
 # Customize zsh
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended && \
@@ -60,7 +60,7 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
     git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-completions && \
     git clone https://github.com/zsh-users/zsh-history-substring-search.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-history-substring-search && \
     git clone https://github.com/MichaelAquilina/zsh-you-should-use.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/you-should-use && \
-    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-~/.oh-my-zsh/custom}/themes/powerlevel10k && \
+    git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k && \
     echo '# zsh' > $HOME/.zshrc && \
     echo 'export PATH=$HOME/bin:/usr/local/bin:${KREW_ROOT:-$HOME/.krew}/bin:$PATH' >> $HOME/.zshrc && \
     echo 'export ZSH="$HOME/.oh-my-zsh"' >> $HOME/.zshrc && \
@@ -75,8 +75,8 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
     echo 'alias please="sudo"' >> $HOME/.zshrc && \
     echo 'alias dnf="microdnf"' >> $HOME/.zshrc && \
     echo '' >> $HOME/.zshrc && \
-    echo '# To customize prompt, run `p10k configure` or edit ~/.p10k.zsh.' >> $HOME/.zshrc && \
-    echo '[[ ! -f ~/.p10k.zsh ]] || source ~/.p10k.zsh' >> $HOME/.zshrc
+    echo '# To customize prompt, run `p10k configure` or edit $HOME/.p10k.zsh.' >> $HOME/.zshrc && \
+    echo '[[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh' >> $HOME/.zshrc
 
 # Set default shell to zsh
 SHELL ["/bin/zsh", "-c"]
