@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9-minimal:9.5
+FROM registry.access.redhat.com/ubi9-minimal:9.6
 
 LABEL maintainer="Antonio Neri <antoneri@proton.me>" \
       description="SAS Viya - Toolkit Pod"
