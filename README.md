@@ -1,6 +1,6 @@
 <div align="center">
 
-![SAS Viya](/.assets/sasviya.png)
+![SAS Viya](https://i.ibb.co/s9TsBGzK/sasviya.png)
 
 # **Toolkit Pod**
 
@@ -8,19 +8,19 @@
 
 </div>
 
-![divider](/.assets/divider.png)
+![divider](https://i.ibb.co/Rk1CXDML/divider.png)
 
 ## Description
 
 A pod based on **Red Hat Universal Base Image 9 (Minimal)** `ubi9-minimal:9.5` which provides essential tools to troubleshoot containerized SAS Viya environments.
 
-![divider](/.assets/divider.png)
+![divider](https://i.ibb.co/Rk1CXDML/divider.png)
 
 ## Prerequisites
 
 Before using the `toolkit` pod, ensure you have **pod deployment capabilities within the specified namespace(s)**.
 
-![divider](/.assets/divider.png)
+![divider](https://i.ibb.co/Rk1CXDML/divider.png)
 
 ## Usage
 
@@ -55,16 +55,16 @@ To get started with the `toolkit`, follow these steps:
     kubectl -n <namespace> exec -it toolkit -- zsh
     ```
 
-![divider](/.assets/divider.png)
+![divider](https://i.ibb.co/Rk1CXDML/divider.png)
 
 ## Contributing
 
 We welcome contributions. Please submit your ideas, bug reports, or feature requests via the [issue tracker](https://github.com/tonineri/toolkit/issues).
 
-![divider](/.assets/divider.png)
+![divider](https://i.ibb.co/Rk1CXDML/divider.png)
 
 ## License
 
 This project is licensed under the [MIT License](LICENSE.md).
 
-![divider](/.assets/divider.png)
+![divider](https://i.ibb.co/Rk1CXDML/divider.png)
