@@ -30,7 +30,7 @@ jobs:
         run: docker build . --file Dockerfile --tag ${{ env.IMAGE_PATH }}:${{ env.DATE }} --tag ${{ env.IMAGE_PATH }}:latest
 
       - name: Scanning image
-        uses: anchore/scan-action@7c05671ae9be166aeb155bad2d7df9121823df32 # v6.1.0
+        uses: anchore/scan-action@df395807f4554463d4455b8047cf58e37b6acaae # v6.5.0
         id: scan
         with:
           image: "${{ env.IMAGE_PATH }}:latest"
