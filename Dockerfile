@@ -42,8 +42,9 @@ RUN microdnf update -y && \
 # Install icdiff via pip
 RUN pip3 install --no-cache-dir icdiff
 
-# Create a user with root privileges
-RUN useradd -ms /bin/zsh sas && \
+# Create sas user with root privileges
+RUN groupadd -g 1001 sas && \
+    useradd -ms /bin/zsh -u 1001 -g 1001 sas && \
     usermod -aG wheel sas && \
     echo "sas ALL=(ALL) NOPASSWD:ALL" >> /etc/sudoers
 
