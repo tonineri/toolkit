@@ -14,6 +14,7 @@ RUN microdnf update -y && \
     rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \
     microdnf install -y --enablerepo=ubi-9-codeready-builder-rpms --setopt install_weak_deps=0 \
     bat \
+    bind-utils \
     bzip2 \
     git \
     iputils \
@@ -87,3 +88,4 @@ WORKDIR /home/sas
 
 # Default command to run when starting the container
 CMD ["/bin/zsh"]
+
