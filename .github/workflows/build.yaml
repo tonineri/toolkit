@@ -6,6 +6,7 @@ on:
       - "main"
     paths:
       - "Dockerfile"
+      - ".assets/**"
   workflow_dispatch:
 
 permissions:
@@ -55,3 +56,4 @@ jobs:
       - name: Pushing Image to GHCR
         run: docker push ${{ env.IMAGE_PATH }}:${{ env.DATE }} && docker push ${{ env.IMAGE_PATH }}:latest
         if: ${{ steps.scan.outcome == 'success' }}
+
