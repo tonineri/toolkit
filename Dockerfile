@@ -1,4 +1,4 @@
-FROM registry.access.redhat.com/ubi9-minimal:9.5
+FROM registry.access.redhat.com/ubi9-minimal:latest
 
 LABEL maintainer="Antonio Neri <antoneri@proton.me>" \
       description="SAS Viya - Toolkit Pod"
@@ -88,4 +88,5 @@ WORKDIR /home/sas
 
 # Default command to run when starting the container
 CMD ["/bin/zsh"]
+
 
