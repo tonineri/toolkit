@@ -4,6 +4,8 @@ on:
   push:
     branches:
       - "main"
+    paths:
+      - "Dockerfile"
   workflow_dispatch:
 
 permissions:
@@ -24,13 +26,12 @@ jobs:
         run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@v4
-
+        uses: actions/checkout@08c6903cd8c0fde910a37f88322edcfb5dd907a8 # v5.0.0
       - name: Building image
         run: docker build . --file Dockerfile --tag ${{ env.IMAGE_PATH }}:${{ env.DATE }} --tag ${{ env.IMAGE_PATH }}:latest
 
       - name: Scanning image
-        uses: anchore/scan-action@7c05671ae9be166aeb155bad2d7df9121823df32 # v6.1.0
+        uses: anchore/scan-action@1638637db639e0ade3258b51db49a9a137574c3e # v6.5.1
         id: scan
         with:
           image: "${{ env.IMAGE_PATH }}:latest"
@@ -38,14 +39,14 @@ jobs:
           severity-cutoff: "critical"
 
       - name: Uploading Anchore scan SARIF report
-        uses: github/codeql-action/upload-sarif@v3
+        uses: github/codeql-action/upload-sarif@96f518a34f7a870018057716cc4d7a5c014bd61c # v3.29.10
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Logging into ghcr.io
-        uses: docker/login-action@74a5d142397b4f367a81961eba4e8cd7edddf772 # v3.4.0
+        uses: docker/login-action@184bdaa0721073962dff0199f1fb9940f07167d1 # v3.5.0
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
