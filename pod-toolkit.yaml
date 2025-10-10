@@ -6,11 +6,11 @@ metadata:
 spec:
   ## Tolerations
   #nodeSelector:
-  #  workload.sas.com/class: stateless  ## <-- Specify nodepool for the pod to be scheduled
+  #  workload.sas.com/class: stateless  ## <-- Specify nodepool for the pod to be scheduled 1/2
   #tolerations:
   #  - key: "workload.sas.com/class"
   #    operator: "Equal"
-  #    value: "stateless"               ## <-- Specify nodepool for the pod to be scheduled
+  #    value: "stateless"               ## <-- Specify nodepool for the pod to be scheduled 2/2
   #    effect: "NoSchedule"
   containers:
     - name: toolkit
@@ -25,7 +25,7 @@ spec:
   #    # NFS
   #    nfs:
   #      path: /path/to/dir            ## <-- Specify NFS directory to be mounted
-  #      server: nfsserver.domain.com  ## <-- Specify NFS hostname
+  #      server: nfsserver.domain.com  ## <-- Specify NFS IP/hostname
   #    # PVC
   #    persistentVolumeClaim:
   #      claimName: pvc-name           ## <-- Specify name of PVC to be mounted
