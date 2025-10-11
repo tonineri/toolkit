@@ -61,25 +61,22 @@ RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master
     git clone https://github.com/zsh-users/zsh-completions.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-completions && \
     git clone https://github.com/zsh-users/zsh-history-substring-search.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/plugins/zsh-history-substring-search && \
     git clone --depth=1 https://github.com/romkatv/powerlevel10k.git ${ZSH_CUSTOM:-$HOME/.oh-my-zsh/custom}/themes/powerlevel10k && \
-    # Create the .zshrc file using a here-document
-    <<EOF > $HOME/.zshrc
-# zsh
-export PATH=\$HOME/bin:/usr/local/bin:\$PATH
-export ZSH="\$HOME/.oh-my-zsh"
-export ZSH_THEME="powerlevel10k/powerlevel10k"
-plugins=(git zsh-syntax-highlighting zsh-autosuggestions zsh-completions zsh-history-substring-search nmap)
-source \$ZSH/oh-my-zsh.sh
-TERM=xterm-256color
-
-# Aliases
-alias ll="ls -la"
-alias diff="icdiff"
-alias please="sudo"
-alias dnf="microdnf"
-
-# To customize prompt, run `p10k configure` or edit \$HOME/.p10k.zsh.
-[[ ! -f \$HOME/.p10k.zsh ]] || source \$HOME/.p10k.zsh
-EOF
+    echo '# zsh' > $HOME/.zshrc && \
+    echo 'export PATH=$HOME/bin:/usr/local/bin:$PATH' >> $HOME/.zshrc && \
+    echo 'export ZSH="$HOME/.oh-my-zsh"' >> $HOME/.zshrc && \
+    echo 'export ZSH_THEME="powerlevel10k/powerlevel10k"' >> $HOME/.zshrc && \
+    echo 'plugins=(git zsh-syntax-highlighting zsh-autosuggestions zsh-completions zsh-history-substring-search nmap)' >> $HOME/.zshrc && \
+    echo 'source $ZSH/oh-my-zsh.sh' >> $HOME/.zshrc && \
+    echo 'TERM=xterm-256color' >> $HOME/.zshrc && \
+    echo '' >> $HOME/.zshrc && \
+    echo '# Aliases' >> $HOME/.zshrc && \
+    echo 'alias ll="ls -la"' >> $HOME/.zshrc && \
+    echo 'alias diff="icdiff"' >> $HOME/.zshrc && \
+    echo 'alias please="sudo"' >> $HOME/.zshrc && \
+    echo 'alias dnf="microdnf"' >> $HOME/.zshrc && \
+    echo '' >> $HOME/.zshrc && \
+    echo '# To customize prompt, run `p10k configure` or edit $HOME/.p10k.zsh.' >> $HOME/.zshrc && \
+    echo '[[ ! -f $HOME/.p10k.zsh ]] || source $HOME/.p10k.zsh' >> $HOME/.zshrc
 
 # Set default shell to zsh
 SHELL ["/bin/zsh", "-c"]
