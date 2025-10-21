@@ -1,6 +1,6 @@
 <div align="center">
 
-![SAS Viya](https://i.ibb.co/s9TsBGzK/sasviya.png)
+![SAS Viya](/.design/sas-viya.png)
 
 # **Toolkit Pod**
 
