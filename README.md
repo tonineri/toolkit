@@ -4,7 +4,7 @@
 
 # **Toolkit Pod**
 
-[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE.md)
+[![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 [![Build Status](https://github.com/tonineri/toolkit/actions/workflows/build.yaml/badge.svg)](https://github.com/tonineri/toolkit/actions/workflows/build.yaml)
 [![Security Scanning](https://img.shields.io/badge/security-scanned-brightgreen)](https://github.com/tonineri/toolkit/security/code-scanning)
 [![ghcr.io](https://img.shields.io/badge/ghcr.io-toolkit-blue?logo=docker)](https://github.com/tonineri/toolkit/pkgs/container/toolkit)
