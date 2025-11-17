@@ -6,7 +6,9 @@ on:
       - "main"
     paths:
       - "Dockerfile"
-      - ".assets/**"
+      - "assets/**"
+  schedule:
+    - cron: '0 2 * * 0'
   workflow_dispatch:
 
 permissions:
