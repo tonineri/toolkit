@@ -83,7 +83,7 @@ The `toolkit` pod comes with a built-in `echo-server` to help you decode a SAS-e
      /* Leave the following code as-is */
  
      filename out TEMP;
-
+     
      proc http
        webusername="a"
        webpassword="&encoded_pw"
@@ -95,17 +95,15 @@ The `toolkit` pod comes with a built-in `echo-server` to help you decode a SAS-e
      
      data _null_;
        infile out lrecl=32767 truncover;
-       length full $32767 line $1000;
-       retain full '';
-       input line $1000.;
-       full = cats(full, strip(line));
-       if index(full, '"authorization"') > 0 and index(full, 'Basic ') > 0 then do;
-         pos = index(full, 'Basic ') + 6;
-         b64 = substr(full, pos, index(substr(full, pos), '"') - 1);
+       length full $32767 line $32767 b64 $200 decoded $200;
+       input line $32767.;
+       pos = index(line, '"Authorization":"Basic ');
+       if pos > 0 then do;
+         rest = substr(line, pos + length('"Authorization":"Basic '));
+         b64 = substr(rest, 1, index(rest, '"') - 1);
          decoded = put(input(strip(b64), $base64x200.), $200.);
          decoded = substr(decoded, index(decoded, ':') + 1);
          put 'Decoded password: ' decoded;
-         stop;
        end;
      run;
      ```
