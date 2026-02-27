@@ -91,4 +91,4 @@ SHELL ["/bin/zsh", "-c"]
 WORKDIR /home/sas
 
 # Default command to run when starting the container
-CMD ["/bin/sh", "-c", "echo-server & exec /bin/zsh"]
+CMD ["/bin/sh", "-c", "echo-server & sleep infinity"]
