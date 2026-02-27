@@ -15,6 +15,17 @@
 
 ![divider](/docs/images/divider.png)
 
+## Table of Contents
+
+- [Description](#description)
+- [Prerequisites](#prerequisites)
+- [Usage](#usage)
+- [Decode SAS-encoded passwords](#decode-sas-encoded-passwords)
+- [Contributing](#contributing)
+- [License](#license)
+
+![divider](/docs/images/divider.png)
+
 ## Description
 
 A pod based on the latest **Red Hat Universal Base Image 9 (Minimal)** `ubi9-minimal:latest` which provides essential tools to troubleshoot containerized SAS Viya environments.
@@ -72,12 +83,12 @@ The `toolkit` pod comes with a built-in `echo-server` to help you decode any `SA
      kubectl get pod toolkit -n $VIYA_NS -o jsonpath='{.status.podIP}'
      ```
 
-  2. On your SAS Viya environment, start a SAS Studio session and execute this code after input the **pod's IP** and the **SAS-encoded password** to be decoded in the appropriate `%let` statements:
+  2. On your SAS Viya environment, start a SAS Studio session and execute this code after inputting the **pod's IP** and the **SAS-encoded password** to be decoded in the appropriate `%let` statements:
 
      ```sas
      /* Input the pod IP and the SAS-encoded password to be decoded here: */
 
-     %let pod_ip = 10.244.8.28;
+     %let pod_ip = pods.ip.address.here;
      %let encoded_pw = {SAS00X}YOURENCODEDPASSWORDHERE;
      
      /* Leave the following code as-is */
