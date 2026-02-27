@@ -1,7 +1,14 @@
+FROM golang:1.25-alpine AS echo-builder
+WORKDIR /build
+COPY assets/echo-server.go .
+RUN go mod init echo && \
+    CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o echo-server .
+
 FROM registry.access.redhat.com/ubi9-minimal:latest
 
 LABEL maintainer="Antonio Neri <antoneri@proton.me>" \
-      description="SAS Viya | Toolkit Pod"
+      description="SAS Viya | Toolkit Pod" \
+      org.opencontainers.image.description="SAS Viya | Toolkit Pod"
 
 # Necessary environment variables
 ENV LANG="en_US.UTF-8" \
@@ -33,6 +40,9 @@ RUN microdnf update -y && \
     curl -sSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq && chmod +x /usr/local/bin/yq && \
     microdnf clean all && \
     rm -rf /tmp/* /var/tmp/* /var/cache/dnf /var/cache/yum
+
+# Copy the echo server binary from the builder stage
+COPY --from=echo-builder /build/echo-server /usr/local/bin/echo-server
 
 # Create sas user with root privileges
 RUN groupadd -g 1001 sas && \
@@ -81,4 +91,4 @@ SHELL ["/bin/zsh", "-c"]
 WORKDIR /home/sas
 
 # Default command to run when starting the container
-CMD ["/bin/zsh"]
+CMD ["/bin/sh", "-c", "echo-server & exec /bin/zsh"]

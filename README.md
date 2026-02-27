@@ -62,6 +62,62 @@ To get started with the `toolkit`, follow these steps:
 
 ![divider](/docs/images/divider.png)
 
+## Decode SAS-encoded passwords
+
+The `toolkit` pod comes with a built-in `echo-server` to help you decode a SAS-encoded password.
+
+  1. Get the IP of the `toolkit` pod running in the `$VIYA_NS` namespace:
+
+     ```sh
+     kubectl get pod toolkit -n $VIYA_NS -o jsonpath='{.status.podIP}'
+     ```
+
+  2. On your SAS Viya environment, start a SAS Studio session and execute this code after input the **pod's IP** and the **SAS-encoded password** to be decoded in the appropriate `%let` statements:
+
+     ```sas
+     /* Input the pod IP and the SAS-encoded password to be decoded here: */
+
+     %let pod_ip = 10.244.8.28;
+     %let encoded_pw = {SAS002}YOURENCODEDPASSWORDHERE;
+     
+     /* Leave the following code as-is */
+ 
+     filename out TEMP;
+
+     proc http
+       webusername="a"
+       webpassword="&encoded_pw"
+       auth_basic
+       method="GET"
+       url="http://&pod_ip:8080/"
+       out=out;
+     run;
+     
+     data _null_;
+       infile out lrecl=32767 truncover;
+       length full $32767 line $1000;
+       retain full '';
+       input line $1000.;
+       full = cats(full, strip(line));
+       if index(full, '"authorization"') > 0 and index(full, 'Basic ') > 0 then do;
+         pos = index(full, 'Basic ') + 6;
+         b64 = substr(full, pos, index(substr(full, pos), '"') - 1);
+         decoded = put(input(strip(b64), $base64x200.), $200.);
+         decoded = substr(decoded, index(decoded, ':') + 1);
+         put 'Decoded password: ' decoded;
+         stop;
+       end;
+     run;
+     ```
+
+  3. If everything was done correctly, you should be able to see the decoded password in the execution log. For example:
+
+     ```
+     Decoded password: YourPassword
+     ```
+
+![divider](/docs/images/divider.png)
+
 ## Contributing
 
 We welcome contributions. Please submit your ideas, bug reports, or feature requests via the [issue tracker](https://github.com/tonineri/toolkit/issues).
