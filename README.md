@@ -64,7 +64,7 @@ To get started with the `toolkit`, follow these steps:
 
 ## Decode SAS-encoded passwords
 
-The `toolkit` pod comes with a built-in `echo-server` to help you decode a SAS-encoded password.
+The `toolkit` pod comes with a built-in `echo-server` to help you decode a `SAS001`, `SAS002` or `SAS003` encoded password.
 
   1. Get the IP of the `toolkit` pod running in the `$VIYA_NS` namespace:
 
@@ -78,7 +78,7 @@ The `toolkit` pod comes with a built-in `echo-server` to help you decode a SAS-e
      /* Input the pod IP and the SAS-encoded password to be decoded here: */
 
      %let pod_ip = 10.244.8.28;
-     %let encoded_pw = {SAS002}YOURENCODEDPASSWORDHERE;
+     %let encoded_pw = {SAS00X}YOURENCODEDPASSWORDHERE;
      
      /* Leave the following code as-is */
  
