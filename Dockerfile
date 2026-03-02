@@ -1,4 +1,4 @@
-FROM golang:1.25-alpine AS echo-builder
+FROM golang:1.26-alpine AS echo-builder
 WORKDIR /build
 COPY assets/echo-server.go .
 RUN go mod init echo && \
