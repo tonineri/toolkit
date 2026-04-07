@@ -42,13 +42,6 @@ RUN microdnf update -y && \
     microdnf clean all && \
     rm -rf /tmp/* /var/tmp/* /var/cache/dnf /var/cache/yum
 
-RUN cd /tmp && \
-    wget https://github.com/Macmod/godap/releases/download/v2.11.0/godap-v2.11.0-linux-amd64.tar.gz && \
-    tar -xzf godap-v2.11.0-linux-amd64.tar.gz godap && \
-    mv godap /usr/local/bin/godap && \
-    chmod +x /usr/local/bin/godap && \
-    rm -f godap-v2.11.0-linux-amd64.tar.gz
-
 # Copy the echo server binary from the builder stage
 COPY --from=echo-builder /build/echo-server /usr/local/bin/echo-server
 
