@@ -80,7 +80,7 @@ The `toolkit` pod comes with a built-in `echo-server` to help you decode any `SA
   1. Get the IP of the `toolkit` pod running in the `$VIYA_NS` namespace:
 
      ```sh
-     kubectl get pod toolkit -n $VIYA_NS -o jsonpath='{.status.podIP}'
+     kubectl get pod toolkit -n <namespace> -o jsonpath='{.status.podIP}'
      ```
 
   2. On your SAS Viya environment, start a SAS Studio session and execute this code after inputting the **pod's IP** and the **SAS-encoded password** to be decoded in the appropriate `%let` statements:
@@ -124,6 +124,10 @@ The `toolkit` pod comes with a built-in `echo-server` to help you decode any `SA
      ```
      Decoded password: YourPassword
      ```
+
+> [!NOTE]
+> For the `echo-server` to start with the pod, make sure your [pod-tooklkit.yaml](pod-toolkit.yaml) is updated.
+> Otherwise, access the pod with `kubectl -n <namespace> exec -it toolkit -- zsh` and then execute `/usr/local/bin/echo-server`.
 
 ![divider](/docs/images/divider.png)
 
