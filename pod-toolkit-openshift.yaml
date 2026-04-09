@@ -1,0 +1,38 @@
+apiVersion: v1
+kind: Pod
+metadata:
+  name: toolkit
+  #namespace: sas-viya                  ## <-- Specify namespace for the pod to be deployed
+spec:
+  ## Service Account
+  serviceAccountName: sas-cas-server
+  ## Tolerations
+  #nodeSelector:
+  #  workload.sas.com/class: stateless  ## <-- Specify nodepool for the pod to be scheduled 1/2
+  #tolerations:
+  #  - key: "workload.sas.com/class"
+  #    operator: "Equal"
+  #    value: "stateless"               ## <-- Specify nodepool for the pod to be scheduled 2/2
+  #    effect: "NoSchedule"
+  containers:
+    - name: toolkit
+      image: ghcr.io/tonineri/toolkit:latest
+      securityContext:
+        runAsUser: 1001
+        allowPrivilegeEscalation: true
+      #volumeMounts:
+      #  - mountPath: "/mount"
+      #    name: mount
+  ## Storage
+  #volumes:
+  #  - name: mount
+  #    # NFS
+  #    nfs:
+  #      path: /path/to/dir            ## <-- Specify NFS directory to be mounted
+  #      server: nfsserver.domain.com  ## <-- Specify NFS IP/hostname
+  #    # PVC
+  #    persistentVolumeClaim:
+  #      claimName: pvc-name           ## <-- Specify name of PVC to be mounted
+  #    # hostPath
+  #    hostPath:
+  #      path: /path/to/dir            ## <-- Specify hostPath to be mounted
