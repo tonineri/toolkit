@@ -135,7 +135,7 @@ The `toolkit` pod comes with a built-in `echo-server` to help you decode any `SA
      ```
 
 > [!NOTE]
-> For the `echo-server` to start with the pod, make sure your [pod-tooklkit.yaml](pod-toolkit.yaml) is updated.
+> For the `echo-server` to start with the pod, make sure your [pod-toolkit.yaml](pod-toolkit.yaml) is updated.
 > Otherwise, access the pod with `kubectl -n <namespace> exec -it toolkit -- zsh` and then execute `/usr/local/bin/echo-server`.
 
 ![divider](/docs/images/divider.png)
