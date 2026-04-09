@@ -45,7 +45,11 @@ To get started with the `toolkit`, follow these steps:
 - Keeping defaults:
 
     ```sh
-    kubectl -n <namespace> apply -f https://raw.githubusercontent.com/tonineri/toolkit/main/pod-toolkit.yaml
+    # Apply
+    kubectl -n <namespace> apply -f https://raw.githubusercontent.com/tonineri/toolkit/main/pod-toolkit.yaml ## For Kubernetes
+    kubectl -n <namespace> apply -f https://raw.githubusercontent.com/tonineri/toolkit/main/pod-toolkit-openshift.yaml # For Red Hat OpenShift   
+
+    # Access the pod
     kubectl -n <namespace> exec -it toolkit -- zsh
     ```
 
@@ -54,15 +58,20 @@ To get started with the `toolkit`, follow these steps:
     1. Get the latest version of the manifest:
 
     ```sh
-    wget https://raw.githubusercontent.com/tonineri/toolkit/main/pod-toolkit.yaml
+    wget https://raw.githubusercontent.com/tonineri/toolkit/main/pod-toolkit.yaml ## For Kubernetes
+    wget https://raw.githubusercontent.com/tonineri/toolkit/main/pod-toolkit-openshift.yaml ## For Red Hat OpenShift   
     ```
 
     2. Edit the `pod-toolkit.yaml` and deploy the pod in your namespace:
 
     ```sh
-    vi pod-toolkit.yaml
     # Make your modifications
-    kubectl -n <namespace> apply -f pod-toolkit.yaml
+    vi pod-toolkit.yaml ## For Kubernetes
+    vi pod-toolkit-openshift.yaml ## For Red Hat OpenShift
+
+    # Apply
+    kubectl -n <namespace> apply -f pod-toolkit.yaml ## For Kubernetes
+    kubectl -n <namespace> apply -f pod-toolkit-openshift.yaml ## For Red Hat OpenShift    
     ```
 
     3. Access the pod:
