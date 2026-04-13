@@ -15,7 +15,6 @@ spec:
   containers:
     - name: toolkit
       image: ghcr.io/tonineri/toolkit:latest
-      command: ['sleep', 'infinity']
       #volumeMounts:
       #  - mountPath: "/mount"
       #    name: mount

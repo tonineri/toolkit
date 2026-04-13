@@ -29,33 +29,63 @@ jobs:
         run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@de0fac2e4500dabe0009e67214ff5f5447ce83dd # v6.0.2
+        uses: actions/checkout@v4
+
       - name: Building image
         run: docker build . --file Dockerfile --tag ${{ env.IMAGE_PATH }}:${{ env.DATE }} --tag ${{ env.IMAGE_PATH }}:latest
 
       - name: Scanning image
-        uses: anchore/scan-action@62b74fb7bb810d2c45b1865f47a77655621862a5 # v7.2.3
+        uses: anchore/scan-action@v6
         id: scan
         with:
           image: "${{ env.IMAGE_PATH }}:latest"
-          fail-build: false
+          fail-build: true
           severity-cutoff: "critical"
+          output-format: "sarif"
 
-      - name: Uploading Anchore scan SARIF report
-        uses: github/codeql-action/upload-sarif@cdefb33c0f6224e58673d9004f47f7cb3e328b89 # v4.31.10
+      - name: Generate human-readable scan report
+        if: always()
+        run: |
+          grype ${{ env.IMAGE_PATH }}:latest -o table > grype-report.txt || true
+          echo "## Security Scan Summary" > scan-summary.md
+          echo "" >> scan-summary.md
+          echo "**Image:** \`${{ env.IMAGE_PATH }}:latest\`" >> scan-summary.md
+          echo "**Scanned:** $(date -u '+%Y-%m-%d %H:%M UTC')" >> scan-summary.md
+          echo "**Scanner:** Anchore Grype" >> scan-summary.md
+          echo "**Severity threshold:** Critical (blocks push)" >> scan-summary.md
+          echo "" >> scan-summary.md
+          echo "### Findings" >> scan-summary.md
+          echo '```' >> scan-summary.md
+          cat grype-report.txt >> scan-summary.md
+          echo '```' >> scan-summary.md
+
+      - name: Upload SARIF report to GitHub Security tab
+        uses: github/codeql-action/upload-sarif@v3
+        if: always()
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
+      - name: Upload scan artifacts (publicly accessible)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-scan-${{ env.DATE || 'scheduled' }}
+          path: |
+            ${{ steps.scan.outputs.sarif }}
+            grype-report.txt
+            scan-summary.md
+          retention-days: 90
+
       - name: Logging into ghcr.io
-        uses: docker/login-action@5e57cd118135c172c3672efd75eb46360885c0ef # v3.6.0
+        if: ${{ steps.scan.outcome == 'success' }}
+        uses: docker/login-action@v4
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
           registry: ghcr.io
 
       - name: Pushing Image to GHCR
-        run: docker push ${{ env.IMAGE_PATH }}:${{ env.DATE }} && docker push ${{ env.IMAGE_PATH }}:latest
         if: ${{ steps.scan.outcome == 'success' }}
-
+        run: docker push ${{ env.IMAGE_PATH }}:${{ env.DATE }} && docker push ${{ env.IMAGE_PATH }}:latest
