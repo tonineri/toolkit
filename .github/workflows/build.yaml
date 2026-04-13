@@ -30,6 +30,7 @@ jobs:
 
       - name: Checkout
         uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+
       - name: Building image
         run: docker build . --file Dockerfile --tag ${{ env.IMAGE_PATH }}:${{ env.DATE }} --tag ${{ env.IMAGE_PATH }}:latest
 
@@ -40,13 +41,45 @@ jobs:
           image: "${{ env.IMAGE_PATH }}:latest"
           fail-build: false
           severity-cutoff: "critical"
+          output-format: "sarif"
 
-      - name: Uploading Anchore scan SARIF report
+      - name: Generate human-readable scan report
+        if: always()
+        run: |
+          docker run --rm \
+            -v /var/run/docker.sock:/var/run/docker.sock \
+            anchore/grype:latest ${{ env.IMAGE_PATH }}:latest \
+            -o table > grype-report.txt || true
+          echo "## Security Scan Summary" > scan-summary.md
+          echo "" >> scan-summary.md
+          echo "**Image:** \`${{ env.IMAGE_PATH }}:latest\`" >> scan-summary.md
+          echo "**Scanned:** $(date -u '+%Y-%m-%d %H:%M UTC')" >> scan-summary.md
+          echo "**Scanner:** Anchore Grype" >> scan-summary.md
+          echo "**Severity threshold:** Critical (blocks push)" >> scan-summary.md
+          echo "" >> scan-summary.md
+          echo "### Findings" >> scan-summary.md
+          echo '```' >> scan-summary.md
+          cat grype-report.txt >> scan-summary.md
+          echo '```' >> scan-summary.md
+
+      - name: Upload SARIF report to GitHub Security tab
         uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13 # v4.35.1
+        if: always()
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+
+      - name: Upload scan artifacts (publicly accessible)
+        uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: security-scan-${{ env.DATE || 'scheduled' }}
+          path: |
+            ${{ steps.scan.outputs.sarif }}
+            grype-report.txt
+            scan-summary.md
+          retention-days: 90
 
       - name: Logging into ghcr.io
         uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
@@ -58,4 +91,3 @@ jobs:
       - name: Pushing Image to GHCR
         run: docker push ${{ env.IMAGE_PATH }}:${{ env.DATE }} && docker push ${{ env.IMAGE_PATH }}:latest
         if: ${{ steps.scan.outcome == 'success' }}
-

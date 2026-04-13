@@ -6,7 +6,8 @@
 
 [![License: MIT](https://img.shields.io/badge/license-MIT-yellow.svg)](LICENSE)
 [![Build Status](https://github.com/tonineri/toolkit/actions/workflows/build.yaml/badge.svg)](https://github.com/tonineri/toolkit/actions/workflows/build.yaml)
-[![Security Scanning](https://img.shields.io/badge/security-scanned-brightgreen)](https://github.com/tonineri/toolkit/security/code-scanning)
+[![Security Scanning](https://img.shields.io/badge/security-grype%20scanned-brightgreen)](https://github.com/tonineri/toolkit/actions/workflows/build.yaml)
+[![Security Policy](https://img.shields.io/badge/security-policy-blue)](SECURITY.md)
 [![ghcr.io](https://img.shields.io/badge/ghcr.io-toolkit-blue?logo=docker)](https://github.com/tonineri/toolkit/pkgs/container/toolkit)
 [![Maintained](https://img.shields.io/badge/maintained%3F-yes-green.svg)](https://github.com/tonineri/toolkit/graphs/commit-activity)
 [![Red Hat UBI9](https://img.shields.io/badge/base-UBI9_minimal-red)](https://catalog.redhat.com/software/containers/ubi9/ubi-minimal/615bd9b4075b022acc111bf5)
@@ -17,12 +18,25 @@
 
 ## Table of Contents
 
+- [Disclaimer](#disclaimer)
 - [Description](#description)
 - [Prerequisites](#prerequisites)
 - [Usage](#usage)
 - [Decode SAS-encoded passwords](#decode-sas-encoded-passwords)
+- [Security](#security)
 - [Contributing](#contributing)
 - [License](#license)
+
+![divider](/docs/images/divider.png)
+
+## Disclaimer
+
+> [!IMPORTANT]
+> This is a **personal project** created and maintained by [Antonio Neri](https://github.com/tonineri) in his individual capacity.
+>
+> While the author is employed by SAS Institute, this image is **not an official SAS product**, is **not endorsed by SAS Institute**, and is **not supported by SAS Institute** in any way. SAS Institute bears no responsibility for its use, reliability, or any consequences arising from its deployment.
+>
+> This tool was built to simplify the work of SAS Administrators managing SAS Viya environments and is shared with the community in that spirit. Use it at your own discretion.
 
 ![divider](/docs/images/divider.png)
 
@@ -137,6 +151,35 @@ The `toolkit` pod comes with a built-in `echo-server` to help you decode any `SA
 > [!NOTE]
 > For the `echo-server` to start with the pod, make sure your [pod-toolkit.yaml](pod-toolkit.yaml) is updated.
 > Otherwise, access the pod with `kubectl -n <namespace> exec -it toolkit -- zsh` and then execute `/usr/local/bin/echo-server`.
+
+![divider](/docs/images/divider.png)
+
+## Security
+
+This project takes a transparency-first approach to security. Every image published to `ghcr.io` has been scanned with **[Anchore Grype](https://github.com/anchore/grype)** and passed a critical severity threshold before being pushed.
+
+### Viewing scan results
+
+Security reports are publicly available on every build run — no GitHub account required:
+
+1. Go to **[Actions → Build](../../actions/workflows/build.yaml)**
+2. Open the latest successful run
+3. Scroll to **Artifacts** at the bottom
+4. Download `security-scan-*`
+
+The artifact contains a human-readable findings table (`grype-report.txt`), a machine-readable SARIF file, and a scan summary.
+
+### Scan your own copy
+
+```sh
+# Install Grype
+curl -sSfL https://raw.githubusercontent.com/anchore/grype/main/install.sh | sh -s -- -b /usr/local/bin
+
+# Scan the image
+grype ghcr.io/tonineri/toolkit:latest
+```
+
+For the full security policy, including how to report vulnerabilities, see [SECURITY.md](SECURITY.md).
 
 ![divider](/docs/images/divider.png)
 
