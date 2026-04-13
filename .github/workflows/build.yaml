@@ -29,13 +29,13 @@ jobs:
         run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
 
       - name: Checkout
-        uses: actions/checkout@93cb6efe18208431cddfb8368fd83d5badbf9bfd # v5.0.1
+        uses: actions/checkout@v4
 
       - name: Building image
         run: docker build . --file Dockerfile --tag ${{ env.IMAGE_PATH }}:${{ env.DATE }} --tag ${{ env.IMAGE_PATH }}:latest
 
       - name: Scanning image
-        uses: anchore/scan-action@7037fa011853d5a11690026fb85feee79f4c946c # v7.3.2
+        uses: anchore/scan-action@v6
         id: scan
         with:
           image: "${{ env.IMAGE_PATH }}:latest"
@@ -60,7 +60,7 @@ jobs:
           echo '```' >> scan-summary.md
 
       - name: Upload SARIF report to GitHub Security tab
-        uses: github/codeql-action/upload-sarif@c10b8064de6f491fea524254123dbe5e09572f13 # v4.35.1
+        uses: github/codeql-action/upload-sarif@v3
         if: always()
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
@@ -68,7 +68,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Upload scan artifacts (publicly accessible)
-        uses: actions/upload-artifact@b7c566a845b9cb7775c46f5e3d0ef0f2f19a7e5d # v6.0.0
+        uses: actions/upload-artifact@v4
         if: always()
         with:
           name: security-scan-${{ env.DATE || 'scheduled' }}
@@ -80,7 +80,7 @@ jobs:
 
       - name: Logging into ghcr.io
         if: ${{ steps.scan.outcome == 'success' }}
-        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v4.0.0
+        uses: docker/login-action@v3
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
