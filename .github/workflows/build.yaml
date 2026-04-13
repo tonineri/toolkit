@@ -35,21 +35,18 @@ jobs:
         run: docker build . --file Dockerfile --tag ${{ env.IMAGE_PATH }}:${{ env.DATE }} --tag ${{ env.IMAGE_PATH }}:latest
 
       - name: Scanning image
-        uses: anchore/scan-action@e1165082ffb1fe366ebaf02d8526e7c4989ea9d2 # v7.4.0
+        uses: anchore/scan-action@7037fa011853d5a11690026fb85feee79f4c946c # v7.3.2
         id: scan
         with:
           image: "${{ env.IMAGE_PATH }}:latest"
-          fail-build: false
+          fail-build: true
           severity-cutoff: "critical"
           output-format: "sarif"
 
       - name: Generate human-readable scan report
         if: always()
         run: |
-          docker run --rm \
-            -v /var/run/docker.sock:/var/run/docker.sock \
-            anchore/grype:latest ${{ env.IMAGE_PATH }}:latest \
-            -o table > grype-report.txt || true
+          grype ${{ env.IMAGE_PATH }}:latest -o table > grype-report.txt || true
           echo "## Security Scan Summary" > scan-summary.md
           echo "" >> scan-summary.md
           echo "**Image:** \`${{ env.IMAGE_PATH }}:latest\`" >> scan-summary.md
@@ -71,7 +68,7 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
       - name: Upload scan artifacts (publicly accessible)
-        uses: actions/upload-artifact@v4
+        uses: actions/upload-artifact@b7c566a845b9cb7775c46f5e3d0ef0f2f19a7e5d # v6.0.0
         if: always()
         with:
           name: security-scan-${{ env.DATE || 'scheduled' }}
@@ -82,12 +79,13 @@ jobs:
           retention-days: 90
 
       - name: Logging into ghcr.io
-        uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
+        if: ${{ steps.scan.outcome == 'success' }}
+        uses: docker/login-action@9780b0c442fbb1117ed29e0efdff1e18412f7567 # v4.0.0
         with:
           username: ${{ github.actor }}
           password: ${{ secrets.GH_TOKEN }}
           registry: ghcr.io
 
       - name: Pushing Image to GHCR
-        run: docker push ${{ env.IMAGE_PATH }}:${{ env.DATE }} && docker push ${{ env.IMAGE_PATH }}:latest
         if: ${{ steps.scan.outcome == 'success' }}
+        run: docker push ${{ env.IMAGE_PATH }}:${{ env.DATE }} && docker push ${{ env.IMAGE_PATH }}:latest

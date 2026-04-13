@@ -38,7 +38,7 @@ RUN microdnf update -y && \
     zip \
     zsh && \
     curl -sSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq && chmod +x /usr/local/bin/yq && \
-    curl -sSL https://github.com/Macmod/godap/releases/download/v2.11.0/godap-v2.11.0-linux-amd64.tar.gz | tar -xz -C /usr/local/bin/ godap && chmod +x /usr/local/bin/godap && \
+    #curl -sSL https://github.com/Macmod/godap/releases/download/v2.11.0/godap-v2.11.0-linux-amd64.tar.gz | tar -xz -C /usr/local/bin/ godap && chmod +x /usr/local/bin/godap && \
     microdnf clean all && \
     rm -rf /tmp/* /var/tmp/* /var/cache/dnf /var/cache/yum
 
