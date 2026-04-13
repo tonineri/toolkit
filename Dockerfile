@@ -18,7 +18,7 @@ ENV LANG="en_US.UTF-8" \
 RUN microdnf update -y && \
     microdnf upgrade -y && \
     rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-10-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \
-    microdnf install -y --enablerepo=codeready-builder-for-ubi-10-x86_64-rpms --setopt install_weak_deps=0 \
+    microdnf install -y --setopt install_weak_deps=0 \
     bind-utils \
     bzip2 \
     diffutils \
