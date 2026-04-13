@@ -4,7 +4,7 @@ COPY assets/echo-server.go .
 RUN go mod init echo && \
     CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o echo-server .
 
-FROM registry.access.redhat.com/ubi9-minimal:latest
+FROM registry.access.redhat.com/ubi10/ubi-minimal:latest
 
 LABEL maintainer="Antonio Neri <antoneri@proton.me>" \
       description="SAS Viya | Toolkit Pod" \
@@ -17,8 +17,8 @@ ENV LANG="en_US.UTF-8" \
 # Update and install necessary tools
 RUN microdnf update -y && \
     microdnf upgrade -y && \
-    rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \
-    microdnf install -y --enablerepo=ubi-9-codeready-builder-rpms --setopt install_weak_deps=0 \
+    rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-10-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \
+    microdnf install -y --enablerepo=codeready-builder-for-ubi-10-x86_64-rpms --setopt install_weak_deps=0 \
     bind-utils \
     bzip2 \
     diffutils \
@@ -38,7 +38,6 @@ RUN microdnf update -y && \
     zip \
     zsh && \
     curl -sSL https://github.com/mikefarah/yq/releases/latest/download/yq_linux_amd64 -o /usr/local/bin/yq && chmod +x /usr/local/bin/yq && \
-    #curl -sSL https://github.com/Macmod/godap/releases/download/v2.11.0/godap-v2.11.0-linux-amd64.tar.gz | tar -xz -C /usr/local/bin/ godap && chmod +x /usr/local/bin/godap && \
     microdnf clean all && \
     rm -rf /tmp/* /var/tmp/* /var/cache/dnf /var/cache/yum
 

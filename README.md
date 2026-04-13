@@ -10,7 +10,7 @@
 [![Security Policy](https://img.shields.io/badge/security-policy-blue)](SECURITY.md)
 [![ghcr.io](https://img.shields.io/badge/ghcr.io-toolkit-blue?logo=docker)](https://github.com/tonineri/toolkit/pkgs/container/toolkit)
 [![Maintained](https://img.shields.io/badge/maintained%3F-yes-green.svg)](https://github.com/tonineri/toolkit/graphs/commit-activity)
-[![Red Hat UBI9](https://img.shields.io/badge/base-UBI9_minimal-red)](https://catalog.redhat.com/software/containers/ubi9/ubi-minimal/615bd9b4075b022acc111bf5)
+[![Red Hat UBI10](https://img.shields.io/badge/base-UBI10_minimal-red)](https://catalog.redhat.com/en/software/containers/ubi10/ubi-minimal/66f1504a379b9c2cf23e145c)
 
 </div>
 
@@ -42,7 +42,7 @@
 
 ## Description
 
-A pod based on the latest **Red Hat Universal Base Image 9 (Minimal)** `ubi9-minimal:latest` which provides essential tools to troubleshoot containerized SAS Viya environments.
+A pod based on the latest **Red Hat Universal Base Image 10 (Minimal)** `ubi10-minimal:latest` which provides essential tools to troubleshoot containerized SAS Viya environments.
 
 ![divider](/docs/images/divider.png)
 

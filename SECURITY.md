@@ -23,7 +23,7 @@
 |---------|-----------|
 | `latest` | ✅ |
 
----
+![divider](/docs/images/divider.png)
 
 ## Security Scanning
 
@@ -71,7 +71,7 @@ Dependencies are monitored continuously via **GitHub Dependabot**:
 
 ## Base Image
 
-This image is built on **[Red Hat Universal Base Image 9 Minimal](https://catalog.redhat.com/software/containers/ubi9/ubi-minimal/615bd9b4075b022acc111bf5)** (`ubi9-minimal:latest`), which receives regular security patches from Red Hat. The base image is automatically updated weekly via Dependabot.
+This image is built on **[Red Hat Universal Base Image 10 Minimal](https://catalog.redhat.com/en/software/containers/ubi10/ubi-minimal/66f1504a379b9c2cf23e145c)** (`ubi10-minimal:latest`), which receives regular security patches from Red Hat. The base image is automatically updated weekly via Dependabot.
 
 ---
 
@@ -86,3 +86,5 @@ Please include:
 - A clear description of the vulnerability
 - Steps to reproduce
 - Potential impact and affected versions
+
+You can expect acknowledgement within **48 hours** and a resolution or update within **7 days** depending on severity.
