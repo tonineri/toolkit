@@ -1,4 +1,4 @@
-name: Build
+name: Build, Scan & Publish Image
 
 on:
   push:
@@ -23,7 +23,7 @@ jobs:
   docker:
     runs-on: ubuntu-latest
     steps:
-      - name: Getting current date
+      - name: Get Current Date
         id: date
         if: ${{ github.ref == 'refs/heads/main' }}
         run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
@@ -31,10 +31,10 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v6
 
-      - name: Building image
+      - name: Build Image
         run: docker build . --file Dockerfile --tag ${{ env.IMAGE_PATH }}:${{ env.DATE }} --tag ${{ env.IMAGE_PATH }}:latest
 
-      - name: Scanning image
+      - name: Scan Image
         uses: anchore/scan-action@v7
         id: scan
         with:
@@ -43,7 +43,11 @@ jobs:
           severity-cutoff: "critical"
           output-format: "sarif"
 
-      - name: Generate human-readable scan report
+      - name: Install Grype
+        if: always()
+        uses: anchore/scan-action/download-grype@v7
+
+      - name: Generate Scan Report
         if: always()
         run: |
           grype ${{ env.IMAGE_PATH }}:latest -o table > grype-report.txt || true
@@ -59,7 +63,7 @@ jobs:
           cat grype-report.txt >> scan-summary.md
           echo '```' >> scan-summary.md
 
-      - name: Upload SARIF report to GitHub Security tab
+      - name: Upload SARIF Report
         uses: github/codeql-action/upload-sarif@v4
         if: always()
         with:
@@ -67,7 +71,7 @@ jobs:
         env:
           GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
 
-      - name: Upload scan artifacts (publicly accessible)
+      - name: Upload Scan Artifacts
         uses: actions/upload-artifact@v7
         if: always()
         with:
@@ -78,7 +82,7 @@ jobs:
             scan-summary.md
           retention-days: 90
 
-      - name: Logging into ghcr.io
+      - name: Log in to GHCR
         if: ${{ steps.scan.outcome == 'success' }}
         uses: docker/login-action@v4
         with:
@@ -86,6 +90,6 @@ jobs:
           password: ${{ secrets.GH_TOKEN }}
           registry: ghcr.io
 
-      - name: Pushing Image to GHCR
+      - name: Push Image to GHCR
         if: ${{ steps.scan.outcome == 'success' }}
         run: docker push ${{ env.IMAGE_PATH }}:${{ env.DATE }} && docker push ${{ env.IMAGE_PATH }}:latest
