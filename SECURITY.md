@@ -45,8 +45,7 @@ Security scan results are publicly available in two ways:
 
    The artifact contains:
    - `grype-report.txt` — human-readable table of all findings with severity, CVE ID, package, and fix version
-   - `results.sarif` — machine-readable SARIF report for tooling integration
-   - `scan-summary.md` — brief summary with image and scan metadata
+   - `*.sarif` — machine-readable SARIF report for tooling integration
 
 2. **Run your own scan** at any time against the published image:
 
@@ -86,5 +85,3 @@ Please include:
 - A clear description of the vulnerability
 - Steps to reproduce
 - Potential impact and affected versions
-
-You can expect acknowledgement within **48 hours** and a resolution or update within **7 days** depending on severity.

@@ -167,7 +167,7 @@ Security reports are publicly available on every build run — no GitHub account
 3. Scroll to **Artifacts** at the bottom
 4. Download `security-scan-*`
 
-The artifact contains a human-readable findings table (`grype-report.txt`), a machine-readable SARIF file, and a scan summary.
+The artifact contains a human-readable findings table (`grype-report.txt`) and a machine-readable SARIF file.
 
 ### Scan your own copy
 
