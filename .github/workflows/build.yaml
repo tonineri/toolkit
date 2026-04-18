@@ -43,26 +43,14 @@ jobs:
           severity-cutoff: "critical"
           output-format: "sarif"
 
-      - name: Install Grype
-        if: always()
-        uses: anchore/scan-action/download-grype@v7
-
       - name: Generate Scan Report
         if: always()
-        run: |
-          grype ${{ env.IMAGE_PATH }}:latest -o table > grype-report.txt || true
-          echo "## Security Scan Summary" > scan-summary.md
-          echo "" >> scan-summary.md
-          echo "**Image:** \`${{ env.IMAGE_PATH }}:latest\`" >> scan-summary.md
-          echo "**Scanned:** $(date -u '+%Y-%m-%d %H:%M UTC')" >> scan-summary.md
-          echo "**Scanner:** Anchore Grype" >> scan-summary.md
-          echo "**Severity threshold:** Critical (blocks push)" >> scan-summary.md
-          echo "" >> scan-summary.md
-          echo "### Findings" >> scan-summary.md
-          echo '```' >> scan-summary.md
-          cat grype-report.txt >> scan-summary.md
-          echo '```' >> scan-summary.md
-
+        uses: anchore/scan-action@v7
+        with:
+          image: "${{ env.IMAGE_PATH }}:latest"
+          fail-build: false
+          output-format: "table"
+          output-file: "grype-report.txt"
       - name: Upload SARIF Report
         uses: github/codeql-action/upload-sarif@v4
         if: always()
@@ -79,7 +67,6 @@ jobs:
           path: |
             ${{ steps.scan.outputs.sarif }}
             grype-report.txt
-            scan-summary.md
           retention-days: 90
 
       - name: Log in to GHCR
