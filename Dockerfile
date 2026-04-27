@@ -1,8 +1,8 @@
-FROM golang:1.26-alpine AS echo-builder
+FROM golang:1.26-trixie AS echo-builder
 WORKDIR /build
 COPY assets/echo-server.go .
 RUN go mod init echo && \
-    CGO_ENABLED=0 GOOS=linux GOAMD64=v1 go build -ldflags="-s -w" -o echo-server .
+    CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o echo-server .
 
 FROM registry.access.redhat.com/ubi10/ubi-minimal:latest
 
