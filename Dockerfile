@@ -4,7 +4,7 @@ COPY assets/echo-server.go .
 RUN go mod init echo && \
     CGO_ENABLED=0 GOOS=linux go build -ldflags="-s -w" -o echo-server .
 
-FROM registry.access.redhat.com/ubi10/ubi-minimal:latest
+FROM registry.access.redhat.com/ubi9/ubi-minimal:latest
 
 LABEL maintainer="Antonio Neri <antoneri@proton.me>" \
       description="SAS Viya | Toolkit Pod" \
@@ -17,7 +17,7 @@ ENV LANG="en_US.UTF-8" \
 # Update and install necessary tools
 RUN microdnf update -y && \
     microdnf upgrade -y && \
-    rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-10-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \
+    rpm -ivh https://download.postgresql.org/pub/repos/yum/reporpms/EL-9-x86_64/pgdg-redhat-repo-latest.noarch.rpm && \
     microdnf install -y --setopt install_weak_deps=0 \
     bind-utils \
     bzip2 \

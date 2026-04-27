@@ -70,7 +70,7 @@ Dependencies are monitored continuously via **GitHub Dependabot**:
 
 ## Base Image
 
-This image is built on **[Red Hat Universal Base Image 10 Minimal](https://catalog.redhat.com/en/software/containers/ubi10/ubi-minimal/66f1504a379b9c2cf23e145c)** (`ubi10-minimal:latest`), which receives regular security patches from Red Hat. The base image is automatically updated weekly via Dependabot.
+This image is built on **[Red Hat Universal Base Image 9 Minimal](https://catalog.redhat.com/en/software/containers/ubi9/ubi-minimal/615bd9b4075b022acc111bf5)** (`ubi9-minimal:latest`), which receives regular security patches from Red Hat. The base image is automatically updated weekly via Dependabot.
 
 ---
 
