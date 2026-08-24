@@ -1,4 +1,4 @@
-FROM golang:1.26-trixie AS echo-builder
+FROM golang:1.27-trixie AS echo-builder
 WORKDIR /build
 COPY assets/echo-server.go .
 RUN go mod init echo && \
