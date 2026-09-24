@@ -52,7 +52,7 @@ jobs:
           output-format: "table"
           output-file: "grype-report.txt"
       - name: Upload SARIF Report
-        uses: github/codeql-action/upload-sarif@v4
+        uses: github/codeql-action/upload-sarif@v4.37.4
         if: always()
         with:
           sarif_file: ${{ steps.scan.outputs.sarif }}
